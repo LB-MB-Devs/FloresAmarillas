@@ -7,6 +7,7 @@ This project creates an interactive webpage that displays animated yellow flower
 - [Installation](#installation)
 - [Usage](#usage)
 - [Files](#files)
+- [Overview](#Overview)
 - [License](#license)
 
 ## Installation
