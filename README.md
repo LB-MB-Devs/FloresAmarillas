@@ -1,4 +1,4 @@
-# Yellow Flowers Project
+# Yellow Flowers
 
 This project creates an interactive webpage that displays animated yellow flowers using HTML, CSS, and JavaScript. The user can choose to display either one flower or twelve flowers with animations.
 
@@ -67,6 +67,15 @@ This file contains the main JavaScript logic for the project. Key functionalitie
 
 This file includes additional JavaScript functions to handle display and animation of flowers.
 
+### Overview
+
+![image](https://github.com/kaikrmen/Yellow-Flowers/assets/61640662/4b4993d4-ab6e-44df-97ad-fc74a71b236b)
+
+![image](https://github.com/kaikrmen/Yellow-Flowers/assets/61640662/2794b385-17c4-4a6d-ac51-1f354d55574c)
+
+![image](https://github.com/kaikrmen/Yellow-Flowers/assets/61640662/ac3c7c50-010f-4f7b-99da-b61247725adf)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
