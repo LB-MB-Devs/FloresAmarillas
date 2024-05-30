@@ -1,51 +1,62 @@
-.Con-2 {
+.options-container {
     display: none;
 }
 
 canvas {
     display: block;
+    max-width: 100%;
+    height: auto;
 }
 
-.Contenedor {
+.main-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    flex-direction: column;
 }
 
-.Con {
+.buttons-container {
     display: flex;
-    place-content: center;
+    justify-content: center;
     align-items: center;
     margin-top: 15px;
+    flex-wrap: wrap;
 }
 
-.Texto {
+.buttons-container .btn {
+    margin: 5px;
+}
+
+.text-container {
     display: none;
+    text-align: center;
 }
 
-.Texto h2 {
-    font-size: 50px;
+.text-container h2 {
+    font-size: 4vw;
 }
 
-#B12 {
+#twelveFlowersButton {
     margin-left: 30px;
 }
 
-.Button{
+.btn {
     font-family: monospace;
-    font-size: x-large;
+    font-size: 1.5rem;
     transition-duration: 0.2s;
     padding: 10px;
     border-radius: 8px;
-    background-color: greenyellow; 
-    color: black; 
+    background-color: greenyellow;
+    color: black;
     border: 2px solid green;
     cursor: pointer;
 }
-  
-.Button:hover{
+
+.btn:hover {
     transform: scale(1.1);
     border-radius: 14px;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -53,21 +64,23 @@ canvas {
     background-color: white;
 }
 
-.Contenedor-Binicio {
+.start-container {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 10px;
+    text-align: center;
 }
 
-.Con-Emergente{
+.modal-container {
     align-items: center;
     text-align: center;
     padding: 20px;
     display: flex;
+    justify-content: center;
 }
 
-.cua{
+.modal-box {
     display: none;
     position: fixed;
     top: 20px;
@@ -80,25 +93,23 @@ canvas {
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     text-align: center;
-    animation: aparecer 0.5s ease-out;
+    animation: appear 0.5s ease-out;
 }
 
-@keyframes aparecer {
+@keyframes appear {
     0% {
-      opacity: 0;
-      transform: translateX(-50%) translateY(-20px);
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
     }
     50% {
-      opacity: 0.5;
-      transform: translateX(-50%) translateY(-10px);
+        opacity: 0.5;
+        transform: translateX(-50%) translateY(-10px);
     }
     100% {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
-      }
+    }
 }
-
-
 
 body {
     margin: 0;
@@ -108,19 +119,16 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #f7f7f7;
-}
-
-.container {
-    text-align: center;
+    box-sizing: border-box;
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 2rem;
     color: #8B4513;
     margin-top: 20px;
     z-index: 1;
     font-family: 'Inclusive Sans', sans-serif;
-
+    text-align: center;
 }
 
 .flower-container {
@@ -130,8 +138,8 @@ h1 {
 }
 
 .flower {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     margin: 10px;
     position: relative;
 }
@@ -158,7 +166,6 @@ h1 {
 .p9 { transform: translate(-50%, -50%) rotate(288deg); }
 .p10 { transform: translate(-50%, -50%) rotate(324deg); }
 
-/* Agrega las siguientes clases para las animaciones */
 @keyframes fadeInPetal {
     from {
         opacity: 0;
@@ -178,8 +185,5 @@ h1 {
 }
 
 .petal {
-    /* Agrega una animación de entrada a los pétalos */
     animation: fadeInPetal 0.5s ease-in-out both;
 }
-
-

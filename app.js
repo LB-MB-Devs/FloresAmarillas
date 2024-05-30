@@ -1,250 +1,225 @@
-let Titulo = document.title;
+let title = document.title;
 
 window.addEventListener('blur', () => {
-    Titulo = document.title;
-    document.title = "No te vayas, regresa :(";
-})
+    title = document.title;
+    document.title = "Don't leave, come back :(";
+});
 
 window.addEventListener('focus', () => {
-    document.title = Titulo;
-})
+    document.title = title;
+});
 
-let h1 = document.getElementById("Titulo");
-let Boton1 = document.getElementById("B1");
-Boton1.addEventListener('click', function() {
-    const ContenedorBotones = document.querySelector(".Con");
-    document.querySelector(".Texto").style.display = "block";
-    ContenedorBotones.style.display = "none";
-    DibujarFlor(500, 100, 6, 30, 100, 200);
-    h1.remove();
-})
+let titleElement = document.getElementById("title");
+let oneFlowerButton = document.getElementById("oneFlowerButton");
 
-document.getElementById("B12").addEventListener('click', function() {
-    const ContenedorBotones = document.querySelector(".Con");
-    ContenedorBotones.style.display = "none";
-    document.querySelector(".Texto").style.display = "block";
-    CrearVarias();
-    h1.remove();
-})
+oneFlowerButton.addEventListener('click', function() {
+    const buttonsContainer = document.querySelector(".buttons-container");
+    document.querySelector(".text-container").style.display = "block";
+    buttonsContainer.style.display = "none";
+    drawFlower(400, 100, 6, 30, 100, 200);
+    titleElement.remove();
+});
 
-const canvas = document.getElementById('Flor');
+document.getElementById("twelveFlowersButton").addEventListener('click', function() {
+    const buttonsContainer = document.querySelector(".buttons-container");
+    buttonsContainer.style.display = "none";
+    document.querySelector(".text-container").style.display = "block";
+    createMultipleFlowers();
+    titleElement.remove();
+});
+
+const canvas = document.getElementById('flowerCanvas');
 const ctx = canvas.getContext('2d');
 
-function DibujarPetalo(x, y, RadioX, scala, Rotacion, color, pasos) {
-    const Numero = scala;
-
-    const AnguloIncrement = (Math.PI / pasos) * 2;
+function drawPetal(x, y, radiusX, scale, rotation, color, steps) {
+    const angleIncrement = (Math.PI / steps) * 2;
     ctx.save();
     ctx.translate(x, y);
-    ctx.rotate(Rotacion);
-    ctx.scale(1, Numero);
+    ctx.rotate(rotation);
+    ctx.scale(1, scale);
     ctx.beginPath();
-    for (let i = 0; i <= pasos; i++) {
-        const AnguloActual = i * AnguloIncrement;
-        const currentRadius = Math.sin(AnguloActual) * RadioX;
-        const PuntoY = Math.sin(AnguloActual) * currentRadius;
-        const PuntoX = Math.cos(AnguloActual) * currentRadius;
+    for (let i = 0; i <= steps; i++) {
+        const currentAngle = i * angleIncrement;
+        const currentRadius = Math.sin(currentAngle) * radiusX;
+        const pointY = Math.sin(currentAngle) * currentRadius;
+        const pointX = Math.cos(currentAngle) * currentRadius;
         if (i === 0) {
-          ctx.moveTo(PuntoX, PuntoY);
+            ctx.moveTo(pointX, pointY);
         } else {
-          ctx.lineTo(PuntoX, PuntoY);
+            ctx.lineTo(pointX, pointY);
         }
-        ctx.strokeStyle = color;
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.stroke();
-      }
-    
-      ctx.restore();
+    }
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
 }
 
-function DibujarFlor(x, y, NumeroPetalos, RadioXPetalo, RadioYPetalo, AltoTrazo) {
-    // Tallo
-    const PasosTallo = 50;
-    const AltoTallo = AltoTrazo / PasosTallo;
-    let NuevaY = y;
+function drawFlower(x, y, petalCount, petalRadiusX, petalRadiusY, stemHeight) {
+    const stemSteps = 50;
+    const stemHeightStep = stemHeight / stemSteps;
+    let newY = y;
 
-  const DibujarTallo = () => {
-    if (NuevaY < y + AltoTrazo) {
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(x, NuevaY);
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = 'black';
-      ctx.stroke();
-      NuevaY += AltoTallo;
-      setTimeout(DibujarTallo, 100);
-    } else {
-      // Dibuja los petalos en el tallo
-      const Pasos = 50;
-      let CuantosPasos = 0;
-      function DibujarPetalosTallo() {
-        if (CuantosPasos <= Pasos) {
-          const PetaloY = y + 250 - RadioYPetalo;
-          const PetaloY2 = y + 200 - RadioYPetalo;
-          DibujarPetalo(500, PetaloY, 15, 2, 300, 'green', CuantosPasos);
-          DibujarPetalo(470, PetaloY2, 15, 2, 300, 'green', CuantosPasos);
-          CuantosPasos++;
-          setTimeout(DibujarPetalosTallo, 100);
+    const drawStem = () => {
+        if (newY < y + stemHeight) {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, newY);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            newY += stemHeightStep;
+            setTimeout(drawStem, 100);
+        } else {
+            const steps = 50;
+            let stepCount = 0;
+            function drawStemPetals() {
+                if (stepCount <= steps) {
+                    const petalY = y + 250 - petalRadiusY;
+                    const petalY2 = y + 200 - petalRadiusY;
+                    drawPetal(400, petalY, 15, 2, 300, 'green', stepCount);
+                    drawPetal(370, petalY2, 15, 2, 300, 'green', stepCount);
+                    stepCount++;
+                    setTimeout(drawStemPetals, 100);
+                }
+            }
+            drawStemPetals();
         }
-      }
-      DibujarPetalosTallo();
-    }
-  };
-  DibujarTallo();
+    };
+    drawStem();
 
-    const AnguloIncrement = (Math.PI * 2) / NumeroPetalos;
-  
-    let contadorPetalos = 0;
-    function dibujarSiguientePetalo() {
-        if (contadorPetalos <= NumeroPetalos) {
-          const Angulo = contadorPetalos * AnguloIncrement;
-          DibujarPetalo(x, y, RadioXPetalo, 2, Angulo, 'yellow', 100);
-          contadorPetalos++;
-          setTimeout(dibujarSiguientePetalo, 1000); 
+    const angleIncrement = (Math.PI * 2) / petalCount;
+
+    let petalCountDrawn = 0;
+    function drawNextPetal() {
+        if (petalCountDrawn <= petalCount) {
+            const angle = petalCountDrawn * angleIncrement;
+            drawPetal(x, y, petalRadiusX, 2, angle, 'yellow', 100);
+            petalCountDrawn++;
+            setTimeout(drawNextPetal, 1000);
         }
-        // Dibuja el centro de la flor
         ctx.beginPath();
         ctx.arc(x, y, 10, 0, Math.PI * 2);
         ctx.fillStyle = 'white';
         ctx.fill();
-      }
-      dibujarSiguientePetalo();
+    }
+    drawNextPetal();
 }
 
-function DibujarFlorSinTallo(x, y, NumeroPetalos, RadioXPetalo, RadioYPetalo, AltoTrazo) {
-    // Dibuja el tallo
-    const PasosTallo = 50;
-    const AltoTallo = AltoTrazo / PasosTallo;
-    let NuevaY = y;
+function drawFlowerWithoutStem(x, y, petalCount, petalRadiusX, petalRadiusY, stemHeight) {
+    const stemSteps = 50;
+    const stemHeightStep = stemHeight / stemSteps;
+    let newY = y;
 
-  const DibujarTallo = () => {
-    if (NuevaY < y + AltoTrazo) {
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(x, NuevaY);
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = 'black';
-      ctx.stroke();
-      NuevaY += AltoTallo;
-      setTimeout(DibujarTallo, 100);
-    } 
-  };
-  DibujarTallo();
-
-    const AnguloIncrement = (Math.PI * 2) / NumeroPetalos;
-  
-    // Dibuja los pétalos
-    let contadorPetalos = 0;
-    function dibujarSiguientePetalo() {
-        if (contadorPetalos <= NumeroPetalos) {
-          const Angulo = contadorPetalos * AnguloIncrement;
-          DibujarPetalo(x, y, RadioXPetalo, 2, Angulo, 'yellow', 100);
-          contadorPetalos++;
-          setTimeout(dibujarSiguientePetalo, 1000); 
+    const drawStem = () => {
+        if (newY < y + stemHeight) {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, newY);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            newY += stemHeightStep;
+            setTimeout(drawStem, 100);
         }
-        // Dibuja el centro de la flor
+    };
+    drawStem();
+
+    const angleIncrement = (Math.PI * 2) / petalCount;
+
+    let petalCountDrawn = 0;
+    function drawNextPetal() {
+        if (petalCountDrawn <= petalCount) {
+            const angle = petalCountDrawn * angleIncrement;
+            drawPetal(x, y, petalRadiusX, 2, angle, 'yellow', 100);
+            petalCountDrawn++;
+            setTimeout(drawNextPetal, 1000);
+        }
         ctx.beginPath();
         ctx.arc(x, y, 10, 0, Math.PI * 2);
         ctx.fillStyle = 'white';
         ctx.fill();
-      }
-      dibujarSiguientePetalo();
+    }
+    drawNextPetal();
 }
 
-function CrearVarias() {
-    const numFlores = 12;
+function createMultipleFlowers() {
+    const numFlowers = 12;
+    const spaceX = canvas.width / 4;
+    const spaceY = canvas.height / 3;
+    const flowerSize = 130;
 
-    // Espaciamiento y tamaño de cada flor
-    const espacioX = canvas.width / 4;
-    const espacioY = canvas.height / 3;
-    const TamañoFlor = 130;
+    for (let i = 0; i <= numFlowers; i++) {
+        const row = Math.floor(i / 4);
+        const column = i % 4;
+        const x = spaceX * column + spaceX / 2;
+        const y = spaceY * row + spaceY / 2;
 
-    for (let i = 0; i <= numFlores; i++) {
-        const fila = Math.floor(i / 4);
-        const columna = i % 4;
-        const x = espacioX * columna + espacioX / 2;
-        const y = espacioY * fila + espacioY / 2;
-
-        DibujarFlorSinTallo(x, y, 8, 30, 80, TamañoFlor);
+        drawFlowerWithoutStem(x, y, 8, 30, 80, flowerSize);
     }
 }
 
-function createFlower() {
-  const flowerContainer = document.querySelector(".flower-container");
+function createRandomFlower() {
+    const flowerContainer = document.querySelector(".flower-container");
+    const maxFlowersOnScreen = 10;
 
-  // Número máximo de flores en pantalla
-  const maxFlowersOnScreen = 5;
+    if (document.querySelectorAll(".flower").length >= maxFlowersOnScreen) {
+        return;
+    }
 
-  // Verificar si ya hay 10 flores en pantalla
-  if (document.querySelectorAll(".flower").length >= maxFlowersOnScreen) {
-      return; // No crear más flores
-  }
+    const maxFlowers = Math.ceil(Math.random() * 5 + 1);
+    const flowerSize = 100;
 
-  // Número máximo de flores a crear simultáneamente (entre 1 y 5)
-  const maxFlowers = Math.ceil(Math.random() * 5 + 1);
-  const flowerSize = 100; // Tamaño de la flor
+    const existingPositions = [];
 
-  // Arrays para almacenar las posiciones de las flores existentes
-  const existingPositions = [];
+    for (let j = 0; j < maxFlowers; j++) {
+        let positionValid = false;
+        let randomX, randomY;
 
-  for (let j = 0; j < maxFlowers; j++) {
-      let positionValid = false;
-      let randomX, randomY;
+        while (!positionValid) {
+            randomX = Math.random() * (window.innerWidth - flowerSize);
+            randomY = Math.random() * (window.innerHeight - flowerSize);
 
-      // Generar posiciones aleatorias y verificar que no se superpongan con las existentes
-      while (!positionValid) {
-          randomX = Math.random() * (window.innerWidth - flowerSize);
-          randomY = Math.random() * (window.innerHeight - flowerSize);
+            positionValid = true;
 
-          positionValid = true;
+            for (const position of existingPositions) {
+                const distance = Math.sqrt(Math.pow(position.x - randomX, 2) + Math.pow(position.y - randomY, 2));
+                if (distance < 100) {
+                    positionValid = false;
+                    break;
+                }
+            }
+        }
 
-          // Verificar si la nueva posición está lo suficientemente alejada de las posiciones existentes
-          for (const position of existingPositions) {
-              const distance = Math.sqrt(Math.pow(position.x - randomX, 2) + Math.pow(position.y - randomY, 2));
-              if (distance < 0) { // Rango de 300 píxeles recomendado para pc, en celular con 0
-                  positionValid = false;
-                  break;
-              }
-          }
-      }
+        existingPositions.push({ x: randomX, y: randomY });
 
-      // Agregar la nueva posición a la lista de posiciones existentes
-      existingPositions.push({ x: randomX, y: randomY });
+        const flower = document.createElement("div");
+        flower.classList.add("flower");
+        flower.style.animation = "fadeInFlower 1s ease-in-out both";
 
-      const flower = document.createElement("div");
-      flower.classList.add("flower");
-      flower.style.animation = "fadeInFlower 1s ease-in-out both"; // Agregar animación de entrada a la flor
+        for (let i = 1; i <= 10; i++) {
+            const petal = document.createElement("div");
+            petal.classList.add("petal", `p${i}`);
+            flower.appendChild(petal);
 
-      for (let i = 1; i <= 10; i++) {
-          const petal = document.createElement("div");
-          petal.classList.add("petal", `p${i}`);
-          flower.appendChild(petal);
+            const disappearanceTime = Math.random() * 3000 + 2000;
+            petal.style.animation = `fadeOutPetal 0.5s ease-in-out both ${i * 0.1}s, fadeOutFlower 0.5s ease-in-out both ${disappearanceTime}s`;
+        }
 
-          // Tiempo aleatorio de desaparición entre 2 y 5 segundos
-          const disappearanceTime = Math.random() * 3000 + 2000;
+        flower.style.position = "fixed";
+        flower.style.left = `${randomX}px`;
+        flower.style.top = `${randomY}px`;
 
-          // Agrega una animación de salida a los pétalos con el tiempo aleatorio de desaparición
-          petal.style.animation = `fadeOutPetal 0.5s ease-in-out both ${i * 0.1}s, fadeOutFlower 0.5s ease-in-out both ${disappearanceTime}s`;
-      }
+        flowerContainer.appendChild(flower);
 
-      flower.style.position = "fixed";
-      flower.style.left = `${randomX}px`;
-      flower.style.top = `${randomY}px`;
+        const disappearanceTime = Math.random() * 3000 + 2000;
 
-      flowerContainer.appendChild(flower);
-
-      // Tiempo aleatorio de desaparición entre 2 y 5 segundos
-      const disappearanceTime = Math.random() * 3000 + 2000;
-
-      setTimeout(() => {
-          flowerContainer.removeChild(flower);
-
-          // Remover la posición de la flor que desapareció de la lista de posiciones existentes
-          existingPositions.splice(existingPositions.findIndex(pos => pos.x === randomX && pos.y === randomY), 1);
-      }, disappearanceTime);
-  }
+        setTimeout(() => {
+            flowerContainer.removeChild(flower);
+            existingPositions.splice(existingPositions.findIndex(pos => pos.x === randomX && pos.y === randomY), 1);
+        }, disappearanceTime);
+    }
 }
 
-// Cambia el intervalo de tiempo para controlar la aparición de las flores cada 3 segundos
-setInterval(createFlower, 5000); // Nuevas flores cada 3 segundos
+setInterval(createRandomFlower, 3000);
